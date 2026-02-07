@@ -7,7 +7,9 @@ export default function App() {
         minHeight: "100vh",
         background: "radial-gradient(1200px 600px at 20% 10%, #f7f3e9 0%, #f0f4f8 55%, #e5ecf4 100%)",
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 4
       }}
     >
       <Container maxWidth="md">
