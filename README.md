@@ -1,4 +1,4 @@
-# Dreamer
+# Dream Interpretation App (Jungian / Inner Work)
 
 ## Overview
 
@@ -61,7 +61,6 @@ Robert A. Johnson’s *Inner Work* translates these ideas into a practical and e
 ## Disclaimer
 
 This project is intended for personal reflection and educational exploration. It is not a substitute for psychotherapy or professional mental health care.
-"""
 
 ## Development
 
@@ -79,4 +78,5 @@ React + Vite + TypeScript + Material UI starter.
 
 - [documentation/MVP.md](documentation/MVP.md)
 - [documentation/TECH_IMPLEMENTATION.md](documentation/TECH_IMPLEMENTATION.md)
+- [documentation/architecture.md](documentation/architecture.md)
 - [documentation/UX_FLOW.md](documentation/UX_FLOW.md)
