@@ -5,8 +5,9 @@ import {
   bulkUpsertHypotheses,
   setHypothesisFeedback,
   getDream,
-  listElements,
-  listAssociations,
+  // TODO: Use these when integrating with AI service
+  // listElements,
+  // listAssociations,
 } from "../../../services/firestore/firestoreRepo";
 import type {
   DreamId,
@@ -62,8 +63,9 @@ export async function generateHypotheses(
     throw new Error("Dream not found");
   }
 
-  const elements = await listElements(db, uid, dreamId);
-  const associations = await listAssociations(db, uid, dreamId);
+  // TODO: Load elements and associations for AI generation when integrated
+  // await listElements(db, uid, dreamId);
+  // await listAssociations(db, uid, dreamId);
 
   // MVP: Generate mock hypotheses
   // TODO: Replace with actual AI generation service
@@ -95,9 +97,9 @@ export async function generateHypotheses(
 
 /**
  * Generate mock hypothesis text based on lens
- * TODO: Replace with AI-generated content
+ * TODO: Replace with AI-generated content that uses dream context
  */
-function generateMockHypothesisText(lens: JungianLens, dreamText: string): string {
+function generateMockHypothesisText(lens: JungianLens, _dreamText: string): string {
   const templates: Record<JungianLens, string> = {
     shadow: "This dream might reflect unacknowledged aspects of yourself that seek integration and recognition in your waking life.",
     compensation: "This dream might compensate for one-sided attitudes in your waking consciousness, offering a balancing perspective.",

@@ -13,7 +13,11 @@ import { subscribeDreams } from "../services/firestore/firestoreRepo";
 import { getDb, ensureAnonymousAuth } from "../app/config/firebase";
 import type { DreamDoc, DreamId } from "../shared/types/domain";
 
-export default function DashboardPage() {
+interface DashboardPageProps {
+  onNavigateToInterpretation?: (dreamId: DreamId) => void;
+}
+
+export default function DashboardPage({ onNavigateToInterpretation }: DashboardPageProps = {}) {
   const [dreams, setDreams] = useState<Array<{ id: DreamId; data: DreamDoc }>>([]);
   const [loading, setLoading] = useState(true);
 
@@ -48,8 +52,12 @@ export default function DashboardPage() {
   };
 
   const handleDreamClick = (dreamId: DreamId) => {
-    // TODO: Navigate to dream session view
-    console.log("Open dream:", dreamId);
+    // Navigate to interpretation if handler provided, otherwise log
+    if (onNavigateToInterpretation) {
+      onNavigateToInterpretation(dreamId);
+    } else {
+      console.log("Open dream:", dreamId);
+    }
   };
 
   if (loading) {
