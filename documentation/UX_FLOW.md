@@ -5,6 +5,44 @@ This document defines the user experience flow for the Dreamer MVP and maps each
 
 ---
 
+
+## 0. Global Navigation
+
+**Jira stories**
+- EPIC: Dream History & Navigation  
+- STORY: Navigation Shell (App bar + menu)
+
+### Purpose
+Enable calm, low-friction movement between screens without breaking the reflective flow.
+
+### Screen components (Figma-ready)
+- Top app bar:
+  - App title: **Dreamer**
+  - Context hint (optional): current dream date or short excerpt
+  - Menu icon (opens navigation panel)
+- Navigation panel (drawer or overlay):
+  - **Dashboard**
+  - **Record a Dream**
+  - **Dream Session View** (if a dream is active)
+  - **Dream Breakdown**
+  - **Associations**
+  - **Interpretation**
+  - **Integration**
+  - **Settings** (BYOK)
+- Soft status label (optional): Draft / Structured / Associated / Interpreted / Integrated
+
+### Interactions
+- Menu opens and closes with a single tap.
+- Selecting a destination keeps the current dream context when applicable.
+- If a step needs an active dream and none is selected, show a soft prompt to choose a dream or record a new one.
+- Navigation never blocks journaling; users can always return to Dashboard.
+
+### Data behavior
+- No new writes are required for navigation.
+- Uses the existing dream status to enable or contextualize steps.
+
+---
+
 ## 1. Home / Dashboard
 
 **Jira stories**
