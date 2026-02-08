@@ -1,0 +1,197 @@
+{
+  "$schema": "https://unpkg.com/@tokens-studio/sd-transforms/dist/schema.json",
+  "Dreamer": {
+    "color": {
+      "bg": {
+        "primary": {
+          "value": "#FAFAF8",
+          "type": "color",
+          "description": "Main app background"
+        },
+        "secondary": {
+          "value": "#F2F2EE",
+          "type": "color",
+          "description": "Subtle section background"
+        },
+        "card": {
+          "value": "#FFFFFF",
+          "type": "color",
+          "description": "Cards, inputs background"
+        }
+      },
+      "border": {
+        "subtle": {
+          "value": "#E3E3DD",
+          "type": "color",
+          "description": "Dividers, card borders"
+        }
+      },
+      "text": {
+        "primary": {
+          "value": "#1E1E1C",
+          "type": "color",
+          "description": "Primary reading text"
+        },
+        "secondary": {
+          "value": "#5F5F5A",
+          "type": "color",
+          "description": "Labels, hints"
+        },
+        "muted": {
+          "value": "#8C8C86",
+          "type": "color",
+          "description": "Metadata, placeholders"
+        }
+      },
+      "accent": {
+        "primary": {
+          "value": "#6B705C",
+          "type": "color",
+          "description": "Grounded accent"
+        },
+        "soft": {
+          "value": "#DDBEA9",
+          "type": "color",
+          "description": "Warm reflection accent"
+        }
+      },
+      "semantic": {
+        "successSoft": {
+          "value": "#A5B7A0",
+          "type": "color",
+          "description": "Resonates feedback"
+        },
+        "neutralSoft": {
+          "value": "#CED4DA",
+          "type": "color",
+          "description": "Neutral states"
+        },
+        "warningSoft": {
+          "value": "#E6CCB2",
+          "type": "color",
+          "description": "Gentle caution"
+        }
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "primary": {
+          "value": "Inter",
+          "type": "fontFamilies",
+          "description": "Primary UI font (swap to Source Serif 4 / IBM Plex Serif if desired)"
+        }
+      },
+      "fontSize": {
+        "headingXL": {
+          "value": 28,
+          "type": "fontSizes"
+        },
+        "headingL": {
+          "value": 22,
+          "type": "fontSizes"
+        },
+        "headingM": {
+          "value": 18,
+          "type": "fontSizes"
+        },
+        "body": {
+          "value": 16,
+          "type": "fontSizes"
+        },
+        "bodySmall": {
+          "value": 14,
+          "type": "fontSizes"
+        },
+        "meta": {
+          "value": 12,
+          "type": "fontSizes"
+        }
+      },
+      "lineHeight": {
+        "headingXL": {
+          "value": 36,
+          "type": "lineHeights"
+        },
+        "headingL": {
+          "value": 30,
+          "type": "lineHeights"
+        },
+        "headingM": {
+          "value": 26,
+          "type": "lineHeights"
+        },
+        "body": {
+          "value": 26,
+          "type": "lineHeights"
+        },
+        "bodySmall": {
+          "value": 22,
+          "type": "lineHeights"
+        },
+        "meta": {
+          "value": 18,
+          "type": "lineHeights"
+        }
+      }
+    },
+    "space": {
+      "1": {
+        "value": 4,
+        "type": "spacing"
+      },
+      "2": {
+        "value": 8,
+        "type": "spacing"
+      },
+      "3": {
+        "value": 16,
+        "type": "spacing"
+      },
+      "4": {
+        "value": 24,
+        "type": "spacing"
+      },
+      "5": {
+        "value": 32,
+        "type": "spacing"
+      },
+      "6": {
+        "value": 48,
+        "type": "spacing"
+      }
+    },
+    "radius": {
+      "default": {
+        "value": 8,
+        "type": "borderRadius"
+      },
+      "small": {
+        "value": 4,
+        "type": "borderRadius"
+      }
+    },
+    "motion": {
+      "duration": {
+        "expandCollapse": {
+          "value": "200ms",
+          "type": "duration"
+        }
+      },
+      "easing": {
+        "standard": {
+          "value": "ease-out",
+          "type": "cubicBezier"
+        }
+      }
+    },
+    "a11y": {
+      "tapTarget": {
+        "minHeight": {
+          "value": 40,
+          "type": "dimension",
+          "description": "Minimum interactive target height (px)"
+        }
+      }
+    }
+  }
+}

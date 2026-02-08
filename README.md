@@ -77,6 +77,5 @@ React + Vite + TypeScript + Material UI starter.
 ## Documentation
 
 - [documentation/MVP.md](documentation/MVP.md)
-- [documentation/TECH_IMPLEMENTATION.md](documentation/TECH_IMPLEMENTATION.md)
-- [documentation/architecture.md](documentation/architecture.md)
 - [documentation/UX_FLOW.md](documentation/UX_FLOW.md)
+- [documentation/TECH_IMPLEMENTATION.md](documentation/TECH_IMPLEMENTATION.md)
