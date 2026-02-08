@@ -4,8 +4,10 @@ import { Timestamp } from "firebase/firestore";
 import DashboardPage from "./DashboardPage";
 
 // Mock the firestore repository
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mockSubscribeDreams = jest.fn();
 jest.mock("../services/firestore/firestoreRepo", () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   subscribeDreams: (...args: any[]) => mockSubscribeDreams(...args),
 }));
 
@@ -17,6 +19,7 @@ jest.mock("../app/config/firebase", () => ({
 
 // Mock DreamListItem
 jest.mock("../entities/dream/ui", () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: ({ dream, onClick }: any) => (
     <div data-testid={`dream-${dream.id}`} onClick={() => onClick(dream.id)}>
       {dream.data.rawText.slice(0, 50)}...
@@ -29,6 +32,7 @@ describe("DashboardPage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Default: return empty array immediately to simulate loaded state
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mockSubscribeDreams.mockImplementation((_db: any, _uid: any, cb: any) => {
       setTimeout(() => cb([]), 0);
       return () => {};
@@ -65,6 +69,7 @@ describe("DashboardPage", () => {
   });
 
   it("renders dream list when dreams exist", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mockSubscribeDreams.mockImplementation((_db: any, _uid: any, cb: any) => {
       setTimeout(() => {
         cb([
