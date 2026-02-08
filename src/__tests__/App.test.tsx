@@ -2,6 +2,11 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../app/App";
 
+jest.mock("../app/config/firebase", () => ({
+  ensureAnonymousAuth: jest.fn(() => Promise.resolve({ uid: "test-uid" })),
+  getDb: jest.fn(() => ({})),
+}));
+
 const OPEN_MENU_NAME = /open menu/i;
 const NAV_LABEL = /primary navigation/i;
 const NAV_ITEMS = [

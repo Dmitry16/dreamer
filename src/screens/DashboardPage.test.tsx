@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import "@testing-library/jest-dom";
 import { Timestamp } from "firebase/firestore";
 import DashboardPage from "./DashboardPage";
@@ -40,14 +41,22 @@ describe("DashboardPage", () => {
   });
 
   it("renders page title", async () => {
-    render(<DashboardPage />);
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(screen.getByText(/Dream History/i)).toBeInTheDocument();
     });
   });
 
   it("renders Record a Dream button", async () => {
-    render(<DashboardPage />);
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(screen.getByRole("button", { name: /Record a Dream/i })).toBeInTheDocument();
     });
@@ -56,12 +65,20 @@ describe("DashboardPage", () => {
   it("shows loading state initially", () => {
     // Don't call the callback immediately for this test
     mockSubscribeDreams.mockImplementation(() => () => {});
-    render(<DashboardPage />);
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    );
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 
   it("shows empty state when no dreams exist", async () => {
-    render(<DashboardPage />);
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getByText(/No dreams yet/i)).toBeInTheDocument();
@@ -87,7 +104,11 @@ describe("DashboardPage", () => {
       return () => {};
     });
 
-    render(<DashboardPage />);
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getByTestId("dream-dream-1")).toBeInTheDocument();

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import {
   Box,
   Button,
@@ -13,9 +14,14 @@ import { subscribeDreams } from "../services/firestore/firestoreRepo";
 import { getDb, ensureAnonymousAuth } from "../app/config/firebase";
 import type { DreamDoc, DreamId } from "../shared/types/domain";
 
-export default function DashboardPage() {
+type DashboardPageProps = {
+  onDreamSelect?: (dreamId: DreamId) => void;
+};
+
+export default function DashboardPage({ onDreamSelect }: DashboardPageProps) {
   const [dreams, setDreams] = useState<Array<{ id: DreamId; data: DreamDoc }>>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
@@ -43,13 +49,12 @@ export default function DashboardPage() {
   }, []);
 
   const handleRecordDream = () => {
-    // TODO: Navigate to dream entry page
-    console.log("Record a dream");
+    navigate("/dreams/new");
   };
 
   const handleDreamClick = (dreamId: DreamId) => {
-    // TODO: Navigate to dream session view
-    console.log("Open dream:", dreamId);
+    onDreamSelect?.(dreamId);
+    navigate(`/dreams/${dreamId}`);
   };
 
   if (loading) {
