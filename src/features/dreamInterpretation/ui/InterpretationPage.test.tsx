@@ -7,6 +7,7 @@ import type { DreamId, HypothesisDoc, HypothesisId } from "../../../shared/types
 
 // Mock HypothesisCard component
 jest.mock("../../../entities/hypothesis/ui", () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: ({ hypothesis, onFeedback }: any) => (
     <div data-testid={`hypothesis-${hypothesis.id}`}>
       <div>{hypothesis.data.hypothesisText}</div>

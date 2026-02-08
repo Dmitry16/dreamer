@@ -72,11 +72,12 @@ export async function generateHypotheses(
   const lenses: JungianLens[] = ["shadow", "compensation", "individuation"];
   const now = Timestamp.now();
 
-  const hypotheses: Array<{ id: HypothesisId; data: HypothesisDoc }> = lenses.slice(0, 2).map((lens, idx) => ({
-    id: `hyp-${Date.now()}-${idx}`,
+  const hypotheses: Array<{ id: HypothesisId; data: HypothesisDoc }> = lenses.slice(0, 2).map((lens) => ({
+    // Use crypto.randomUUID for better uniqueness
+    id: crypto.randomUUID(),
     data: {
       lens,
-      hypothesisText: generateMockHypothesisText(lens, dream.rawText),
+      hypothesisText: generateMockHypothesisText(lens),
       evidence: [
         {
           type: "dream_text" as const,
@@ -99,7 +100,7 @@ export async function generateHypotheses(
  * Generate mock hypothesis text based on lens
  * TODO: Replace with AI-generated content that uses dream context
  */
-function generateMockHypothesisText(lens: JungianLens, _dreamText: string): string {
+function generateMockHypothesisText(lens: JungianLens): string {
   const templates: Record<JungianLens, string> = {
     shadow: "This dream might reflect unacknowledged aspects of yourself that seek integration and recognition in your waking life.",
     compensation: "This dream might compensate for one-sided attitudes in your waking consciousness, offering a balancing perspective.",

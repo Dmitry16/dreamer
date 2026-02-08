@@ -17,7 +17,8 @@ interface DashboardPageProps {
   onNavigateToInterpretation?: (dreamId: DreamId) => void;
 }
 
-export default function DashboardPage({ onNavigateToInterpretation }: DashboardPageProps = {}) {
+export default function DashboardPage(props: DashboardPageProps = {}) {
+  const { onNavigateToInterpretation } = props;
   const [dreams, setDreams] = useState<Array<{ id: DreamId; data: DreamDoc }>>([]);
   const [loading, setLoading] = useState(true);
 
