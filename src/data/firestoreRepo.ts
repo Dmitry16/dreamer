@@ -21,15 +21,14 @@ import {
   orderBy,
   query,
   runTransaction,
-  serverTimestamp,
   setDoc,
   Timestamp,
   updateDoc,
   where,
   writeBatch,
-  type DocumentReference,
   type QueryConstraint,
   type Unsubscribe,
+  type UpdateData,
 } from "firebase/firestore";
 
 import {
@@ -169,12 +168,12 @@ export async function updateDream(
   patch: UpdateDreamInput
 ): Promise<void> {
   // Keep patch minimal & typed
-  const toWrite: Partial<DreamDoc> & { updatedAt: Timestamp } = {
+  const toWrite: UpdateData<DreamDoc> = {
     ...patch,
     updatedAt: nowTs(),
   };
 
-  await updateDoc(dreamRef(db, uid, dreamId) as unknown as DocumentReference, toWrite as any);
+  await updateDoc(dreamRef(db, uid, dreamId), toWrite);
 }
 
 /** Get a single dream doc */
@@ -290,11 +289,13 @@ export async function softDeleteElement(
   dreamId: DreamId,
   elementId: ElementId
 ): Promise<void> {
-  await updateDoc(elementRef(db, uid, dreamId, elementId) as any, {
+  const toWrite: UpdateData<DreamElementDoc> = {
     deleted: true,
     updatedAt: nowTs(),
     source: "user",
-  });
+  };
+
+  await updateDoc(elementRef(db, uid, dreamId, elementId), toWrite);
 }
 
 /** Bulk upsert elements (e.g., after extraction or user edits) */
@@ -306,7 +307,7 @@ export async function bulkUpsertElements(
 ): Promise<void> {
   const b = writeBatch(db);
   rows.forEach((r) => {
-    b.set(elementRef(db, uid, dreamId, r.id) as any, r.data, { merge: true });
+    b.set(elementRef(db, uid, dreamId, r.id), r.data, { merge: true });
   });
   await b.commit();
 }
@@ -350,7 +351,7 @@ export async function updateAssociation(
   associationId: AssociationId,
   patch: Partial<UpsertAssociationInput>
 ): Promise<void> {
-  const toWrite: Partial<AssociationDoc> & { updatedAt: Timestamp } = {
+  const toWrite: UpdateData<AssociationDoc> = {
     ...(patch.elementId ? { elementId: patch.elementId } : {}),
     ...(patch.associationText ? { associationText: patch.associationText } : {}),
     ...(patch.emotionalValence ? { emotionalValence: patch.emotionalValence } : {}),
@@ -358,7 +359,7 @@ export async function updateAssociation(
     updatedAt: nowTs(),
   };
 
-  await updateDoc(associationRef(db, uid, dreamId, associationId) as any, toWrite);
+  await updateDoc(associationRef(db, uid, dreamId, associationId), toWrite);
 }
 
 export async function listAssociations(
@@ -407,7 +408,7 @@ export async function bulkUpsertHypotheses(
   rows: Array<{ id: HypothesisId; data: HypothesisDoc }>
 ): Promise<void> {
   const b = writeBatch(db);
-  rows.forEach((r) => b.set(hypothesisRef(db, uid, dreamId, r.id) as any, r.data, { merge: true }));
+  rows.forEach((r) => b.set(hypothesisRef(db, uid, dreamId, r.id), r.data, { merge: true }));
   await b.commit();
 }
 
@@ -427,10 +428,12 @@ export async function setHypothesisFeedback(
   hypothesisId: HypothesisId,
   feedback: HypothesisFeedback
 ): Promise<void> {
-  await updateDoc(hypothesisRef(db, uid, dreamId, hypothesisId) as any, {
+  const toWrite: UpdateData<HypothesisDoc> = {
     userFeedback: feedback,
     updatedAt: nowTs(),
-  });
+  };
+
+  await updateDoc(hypothesisRef(db, uid, dreamId, hypothesisId), toWrite);
 }
 
 /** -----------------------------
@@ -463,7 +466,7 @@ export async function updateIntegrationJournal(
   journalText: string
 ): Promise<void> {
   await setDoc(
-    integrationMainRef(db, uid, dreamId) as any,
+    integrationMainRef(db, uid, dreamId),
     { journalText, updatedAt: nowTs() },
     { merge: true }
   );

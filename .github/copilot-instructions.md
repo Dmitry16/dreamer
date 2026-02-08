@@ -104,3 +104,22 @@ Before starting a new task in the above plan, update progress in the plan.
 - Work through each checklist item systematically.
 - Keep communication concise and focused.
 - Follow development best practices.
+
+# Global agent instructions (docs-first)
+
+You are working in the DREAMER repo.
+
+## Source of truth
+1) Always read and follow the repository documentation in `/documentation/**` first.
+   - DESIGN_TOKENS.md, FIGMA_SETUP.md, MVP.md, TECH_IMPLEMENTATION.md, UX_FLOW.md, and design-tokens.json are authoritative.
+2) If there is a conflict between code and docs, ask to reconcile and propose a patch (prefer updating docs if behavior changed).
+3) When planning or implementing, cite which documentation file/section you used.
+
+## Workflow
+- Start by scanning `/documentation` to find relevant constraints before coding.
+- Keep changes consistent with the docs (naming, tokens, UX flow, MVP scope).
+- If you need external library/framework specifics, always use the Context7 MCP tool to fetch version-correct docs.
+- Avoid guessing or relying on memory for external APIs.
+- Follow strong typing practices (no `any`) and prefer explicit domain models.
+- Make small, reviewable changes and explain the rationale behind them.
+- If something is unclear, ask for clarification or propose a documented assumption.

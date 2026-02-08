@@ -1,0 +1,254 @@
+"Issue Type","Summary","Description","Epic Name","Epic Link","Priority"
+"Epic","MVP Core — Dreamer","End-to-end dreamwork experience: capture → structure → associations → hypotheses → integration → history.","MVP Core — Dreamer","","High"
+"Epic","Data & Architecture — Firestore (Backendless)","Firestore-first persistence, security rules, domain model, and repository layer. No custom backend.","Data & Architecture — Firestore (Backendless)","","High"
+"Epic","UX Flow — Dream Sessions","Screen-by-screen UX flow aligned with Firestore-first + ethical constraints + BYOK gating.","UX Flow — Dream Sessions","","High"
+"Epic","AI Pipeline — Client Orchestration","Client-orchestrated multi-step AI: Extractor (no interpretation) → Interpreter (hypotheses) → Integrator (reflection).","AI Pipeline — Client Orchestration","","High"
+"Epic","Design System — Tokens & Figma","Design tokens, Figma page map, atoms/molecules/screens, and handoff process.","Design System — Tokens & Figma","","High"
+"Epic","Safety, Ethics & Disclaimers","Non-therapeutic framing, disclaimers, distressing-content neutral handling, privacy constraints.","Safety, Ethics & Disclaimers","","High"
+"Epic","BYOK — Bring Your Own Key","Optional local-only LLM API key management, gating AI steps without blocking journaling.","BYOK — Bring Your Own Key","","High"
+"Epic","Technical Foundation","Firebase init, env config, dev emulators, CI lint/typecheck, basic error logging without PII.","Technical Foundation","","High"
+"Story","Dashboard: Record Dream + Dream History list","Implement Home/Dashboard.
+Requirements:
+- Primary CTA: Record a Dream
+- Dream history list ordered by dreamedAt desc
+- Show status badge: draft/structured/associated/interpreted/integrated
+- Empty state
+
+Acceptance criteria:
+- Reads from /users/{uid}/dreams
+- Selecting a dream opens read-only session view","","MVP Core — Dreamer","High"
+"Story","Dream Entry: capture + autosave + Continue","Dream Entry screen.
+Requirements:
+- Multiline dream text
+- Optional mood + life context
+- Continue CTA enabled only when dream text non-empty
+- Autosave on blur/debounce
+
+Acceptance criteria:
+- Creates/updates /users/{uid}/dreams/{dreamId}
+- No AI calls
+- status='draft'","","MVP Core — Dreamer","High"
+"Story","Dream Breakdown: editable extracted elements","Dream Breakdown screen.
+Requirements:
+- Sections: Characters, Symbols, Places, Emotions (optional: actions/shifts)
+- Element cards support edit label, add, soft delete (deleted=true)
+- User edits override AI output
+
+Acceptance criteria:
+- Persists to /elements subcollection
+- status='structured' after initial extraction/save","","MVP Core — Dreamer","High"
+"Story","Associations: prompts + valence + salience","Associations screen for symbols.
+Requirements:
+- Prompts + free text association
+- Valence selector (positive/negative/mixed)
+- Salience 1–5
+- Progress indicator
+- Save-on-change; skip allowed
+
+Acceptance criteria:
+- Writes to /associations with elementId reference
+- status='associated' once ≥1 association exists","","MVP Core — Dreamer","High"
+"Story","Interpretation: 2–3 hypothesis cards + feedback","Interpretation screen.
+Requirements:
+- 2–3 expandable hypothesis cards
+- Lens badge, evidence references, reflective question
+- Feedback: resonates / doesn't fit
+
+Acceptance criteria:
+- Writes to /hypotheses
+- Stores userFeedback per hypothesis
+- status='interpreted'","","MVP Core — Dreamer","High"
+"Story","Integration: reflective prompts + journaling","Integration screen.
+Requirements:
+- 1–2 reflective questions
+- 1 small integration practice suggestion (non-prescriptive)
+- Optional journal textarea with autosave
+
+Acceptance criteria:
+- Writes to /integration/main
+- status='integrated'","","MVP Core — Dreamer","Medium"
+"Story","Dream Session View: read-only replay","Read-only session view.
+Includes:
+- Dream text
+- Elements (excluding deleted)
+- Associations
+- Hypotheses + feedback
+- Integration notes
+
+Acceptance criteria:
+- No edits in this view (MVP)
+- Navigable from history list","","MVP Core — Dreamer","Medium"
+"Story","Firestore schema implementation (collections + fields)","Implement Firestore data model exactly as documented.
+Paths:
+- /users/{uid}
+- /users/{uid}/dreams/{dreamId}
+- /.../elements/{elementId}
+- /.../associations/{associationId}
+- /.../hypotheses/{hypothesisId}
+- /.../integration/main
+
+Acceptance criteria:
+- All screens read/write the expected docs
+- Timestamps use Firestore Timestamp","","Data & Architecture — Firestore (Backendless)","High"
+"Story","Firestore security rules (per-UID isolation)","Write Firestore rules.
+Requirements:
+- Only authenticated users can read/write their own /users/{uid}/... subtree
+- Deny writes of any BYOK key material (keys must never be stored in Firestore)
+
+Acceptance criteria:
+- Rules tested against emulator
+- Unauthorized reads/writes fail","","Data & Architecture — Firestore (Backendless)","High"
+"Story","TypeScript domain models from Firestore schema","Create strongly typed TS models:
+- UserDoc, DreamDoc, DreamElementDoc, AssociationDoc, HypothesisDoc, IntegrationDoc
+- enums for status/kinds/lenses
+- path helpers
+- optional Firestore converters
+
+Acceptance criteria:
+- No `any`
+- Types align to schema and UI needs","","Data & Architecture — Firestore (Backendless)","High"
+"Story","Typed Firestore repository layer (CRUD + queries + subscribe)","Create repository helpers:
+- createDream, updateDream, listDreams, deleteDreamHard (best-effort)
+- listElements, bulkUpsertElements, softDeleteElement
+- create/update/list associations
+- bulkUpsertHypotheses, setHypothesisFeedback, listHypotheses
+- upsertIntegration + journal update
+- getDreamSession + subscribeDreamSession
+- deriveDreamStatusFromArtifacts (optional)
+
+Acceptance criteria:
+- Uses domain models + converters
+- Works with Firestore emulator","","Data & Architecture — Firestore (Backendless)","High"
+"Story","Extractor stage (no interpretation) — client-orchestrated","Implement Extractor stage that outputs descriptive elements only.
+Inputs: raw dream text
+Outputs: elements (symbols/characters/places/emotions/etc.)
+
+Acceptance criteria:
+- No Jungian meaning, no advice
+- Outputs written to /elements with source='ai'
+- Runs only when AI is enabled (BYOK or future proxy)","","AI Pipeline — Client Orchestration","High"
+"Story","Interpreter stage — hypotheses only","Implement hypothesis generation.
+Inputs: dream + edited elements + associations
+Outputs: 2–3 hypotheses with evidence + reflective question
+
+Acceptance criteria:
+- Hypothesis framing enforced
+- Evidence references stored (type/refId/quote)
+- Written to /hypotheses","","AI Pipeline — Client Orchestration","High"
+"Story","Integrator stage — reflection + small practice","Implement integrator stage.
+Inputs: dream + selected hypotheses/associations context
+Outputs: reflective questions + small integration suggestion
+
+Acceptance criteria:
+- Non-prescriptive language
+- Writes to /integration/main","","AI Pipeline — Client Orchestration","Medium"
+"Story","AI guardrails & prompt constraints","Centralize AI safety constraints:
+- Hypotheses not conclusions
+- No diagnosis/prediction/advice
+- Neutral handling of distressing content
+- Short evidence quotes only
+
+Acceptance criteria:
+- Shared system prompt + per-stage prompts
+- Unit tests/fixtures for guardrail checks (lightweight)","","AI Pipeline — Client Orchestration","High"
+"Story","BYOK Settings UI (local-only API key management)","Provide Settings modal/page for BYOK.
+Requirements:
+- Password-type input for API key
+- Save key (local storage only)
+- Remove key
+- Status indicator (key set / not set)
+- Copy explaining local-only storage
+
+Acceptance criteria:
+- Key never written to Firestore
+- Key not logged","","BYOK — Bring Your Own Key","High"
+"Story","AI step gating when BYOK key missing","Soft-gate AI-dependent steps when no BYOK key:
+- Dream Breakdown (extractor)
+- Interpretation (interpreter)
+- Integration (integrator)
+
+UX requirements:
+- Offer: Add API key, Skip AI and continue journaling, Return to dashboard
+- No dead ends
+
+Acceptance criteria:
+- Journaling remains usable without AI","","BYOK — Bring Your Own Key","High"
+"Story","BYOK error handling (invalid key / network / rate limit)","Handle provider errors without exposing raw provider messages.
+Requirements:
+- Clear, neutral error copy
+- Retry + remove key actions
+- Never blame user
+- Never log secrets
+
+Acceptance criteria:
+- Errors surfaced consistently across AI stages","","BYOK — Bring Your Own Key","Medium"
+"Story","Update UX_FLOW.md with BYOK section + status badge fixes","Update UX_FLOW.md:
+- Include BYOK UX pattern section
+- Ensure status badge list includes 'associated'
+- Clarify Extractor triggers and BYOK gating
+Acceptance criteria:
+- Doc matches current MVP + Firestore schema","","UX Flow — Dream Sessions","Medium"
+"Story","Design tokens: maintain design-tokens.json + dreamer-tokens.css","Maintain design tokens and CSS variables for frontend.
+Artifacts:
+- design-tokens.json (Tokens Studio compatible)
+- dreamer-tokens.css (CSS variables)
+
+Acceptance criteria:
+- Frontend imports CSS vars once
+- Tokens naming consistent with DESIGN_TOKENS.md","","Design System — Tokens & Figma","High"
+"Story","Figma file setup: pages + naming conventions (FIGMA_SETUP.md)","Create Figma file structure per FIGMA_SETUP.md.
+Acceptance criteria:
+- Pages created in canonical order
+- Foundations locked after token import
+- Components follow naming conventions","","Design System — Tokens & Figma","Medium"
+"Story","Figma components: Atoms (buttons/inputs/badges/icons)","Design atoms as component sets with variants/states.
+Acceptance criteria:
+- Uses tokens
+- Includes hover/disabled/loading states","","Design System — Tokens & Figma","High"
+"Story","Figma components: Molecules (cards, list items)","Design molecules:
+- Dream list item
+- Element card
+- Association card
+- Hypothesis card
+- Integration block
+Acceptance criteria:
+- Built from atoms
+- Screen-agnostic","","Design System — Tokens & Figma","High"
+"Story","Figma screens: Core flow + edge states","Design screens:
+- Dashboard, Dream Entry, Breakdown, Associations, Interpretation, Integration, Session view
+Also include: loading/empty/error states
+Acceptance criteria:
+- Prototype-ready frames
+- Uses molecules/atoms","","Design System — Tokens & Figma","High"
+"Story","Disclaimer gating (first use + persistent access)","Implement disclaimer:
+- Shown on first use before AI interpretation
+- Persist acceptance timestamp to /users/{uid}.settings.disclaimerAcceptedAt
+- Accessible later from Settings
+
+Acceptance criteria:
+- No AI calls until accepted","","Safety, Ethics & Disclaimers","High"
+"Story","Distressing content handling (UI copy + safe fallback)","Neutral handling of distressing content:
+- No alarmist language
+- Provide grounding prompts, not advice
+- Safe fallback when AI unavailable or refuses
+
+Acceptance criteria:
+- Copy reviewed against constraints
+- Works without backend moderation","","Safety, Ethics & Disclaimers","Medium"
+"Story","Firebase initializer (firebase.ts) + env configuration","Implement firebase.ts:
+- initFirebase() singleton
+- getDb() helper
+- ensureAnonymousAuth()
+- optional emulator wiring via env flag
+
+Acceptance criteria:
+- Works in dev + prod
+- No secrets committed","","Technical Foundation","High"
+"Story","Basic error reporting without PII (no dream text)","Add minimal client error reporting.
+Requirements:
+- No dream text or BYOK keys in logs
+- Capture route + stage + timing only
+
+Acceptance criteria:
+- Redaction in place
+- Toggle via env flag","","Technical Foundation","Medium"
