@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";
+import App from "./app/App";
+import "./app/styles/base.css";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { initFirebase, ensureAnonymousAuth } from "./data/firebase";
+import { initFirebase, ensureAnonymousAuth } from "./app/config/firebase";
 
-import "./styles/dreamer-tokens.css";
+import "./app/styles/tokens.css";
 
 const theme = createTheme({
   palette: {

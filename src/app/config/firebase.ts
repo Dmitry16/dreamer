@@ -1,4 +1,4 @@
-// src/data/firebase.ts
+// src/app/config/firebase.ts
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
 import {
   getFirestore,

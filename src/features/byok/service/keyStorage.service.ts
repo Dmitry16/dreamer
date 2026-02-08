@@ -1,4 +1,4 @@
-// src/llm/byokKeyStore.ts
+// src/features/byok/service/keyStorage.service.ts
 const KEY = "dreamer.byok.llmApiKey";
 
 /**

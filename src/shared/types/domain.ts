@@ -1,15 +1,9 @@
-/* src/domain/models.ts
+/* src/shared/types/domain.ts
  * Dreamer — Firestore Domain Models
  * Firestore-first, backendless MVP
  */
 
-import type {
-  DocumentData,
-  FirestoreDataConverter,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  Timestamp,
-} from "firebase/firestore";
+import type { Timestamp } from "firebase/firestore";
 
 /** -----------------------------
  *  Shared / primitives
@@ -57,7 +51,6 @@ export type HypothesisFeedback = "resonates" | "does_not_fit";
 
 /** Utility: safe-ish string */
 const isString = (v: unknown): v is string => typeof v === "string";
-const isBoolean = (v: unknown): v is boolean => typeof v === "boolean";
 const isNumber = (v: unknown): v is number => typeof v === "number";
 
 /** -----------------------------
@@ -171,34 +164,6 @@ export interface DreamSession {
 }
 
 /** -----------------------------
- *  Firestore path helpers
- *  ----------------------------- */
-
-export const paths = {
-  user: (uid: UID) => `users/${uid}`,
-  dreams: (uid: UID) => `users/${uid}/dreams`,
-  dream: (uid: UID, dreamId: DreamId) => `users/${uid}/dreams/${dreamId}`,
-
-  elements: (uid: UID, dreamId: DreamId) =>
-    `users/${uid}/dreams/${dreamId}/elements`,
-  element: (uid: UID, dreamId: DreamId, elementId: ElementId) =>
-    `users/${uid}/dreams/${dreamId}/elements/${elementId}`,
-
-  associations: (uid: UID, dreamId: DreamId) =>
-    `users/${uid}/dreams/${dreamId}/associations`,
-  association: (uid: UID, dreamId: DreamId, associationId: AssociationId) =>
-    `users/${uid}/dreams/${dreamId}/associations/${associationId}`,
-
-  hypotheses: (uid: UID, dreamId: DreamId) =>
-    `users/${uid}/dreams/${dreamId}/hypotheses`,
-  hypothesis: (uid: UID, dreamId: DreamId, hypothesisId: HypothesisId) =>
-    `users/${uid}/dreams/${dreamId}/hypotheses/${hypothesisId}`,
-
-  integrationMain: (uid: UID, dreamId: DreamId) =>
-    `users/${uid}/dreams/${dreamId}/integration/main`,
-} as const;
-
-/** -----------------------------
  *  Minimal runtime validators (optional)
  *  Use these when reading unknown DocumentData.
  *  ----------------------------- */
@@ -267,29 +232,6 @@ export function isIntegrationDoc(v: unknown): v is IntegrationDoc {
     !!x.createdAt
   );
 }
-
-/** -----------------------------
- *  Firestore converters (optional but recommended)
- *  ----------------------------- */
-
-function makeConverter<T extends DocumentData>(): FirestoreDataConverter<T> {
-  return {
-    toFirestore: (modelObject: T) => modelObject,
-    fromFirestore: (
-      snapshot: QueryDocumentSnapshot,
-      options: SnapshotOptions
-    ) => snapshot.data(options) as T,
-  };
-}
-
-export const converters = {
-  user: makeConverter<UserDoc>(),
-  dream: makeConverter<DreamDoc>(),
-  element: makeConverter<DreamElementDoc>(),
-  association: makeConverter<AssociationDoc>(),
-  hypothesis: makeConverter<HypothesisDoc>(),
-  integration: makeConverter<IntegrationDoc>(),
-} as const;
 
 /** -----------------------------
  *  Defaults / constructors (recommended)

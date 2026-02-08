@@ -1,4 +1,4 @@
-/* src/data/firestoreRepo.ts
+/* src/services/firestore/firestoreRepo.ts
  * Dreamer — Typed Firestore Repository Helpers
  * Firestore-first, backendless MVP
  *
@@ -10,7 +10,6 @@
 import {
   addDoc,
   collection,
-  collectionGroup,
   deleteDoc,
   doc,
   Firestore,
@@ -31,10 +30,12 @@ import {
   type UpdateData,
 } from "firebase/firestore";
 
+import { converters } from "./converters";
+import { paths } from "./paths";
+import { nowTs } from "./timestamps";
+
 import {
-  converters,
   defaults,
-  paths,
   type AssociationDoc,
   type AssociationId,
   type DreamDoc,
@@ -48,13 +49,11 @@ import {
   type HypothesisId,
   type IntegrationDoc,
   type UID,
-} from "../domain/models";
+} from "../../shared/types/domain";
 
 /** -----------------------------
  *  Utilities
  *  ----------------------------- */
-
-const nowTs = () => Timestamp.now();
 
 /** Ensure salience is within 1..5 */
 const clampSalience = (n: number) => Math.max(1, Math.min(5, Math.round(n)));
