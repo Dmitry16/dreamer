@@ -1,0 +1,65 @@
+/* Dreamer Design Tokens — CSS Variables */
+/* Generated from design-tokens.json */
+:root {
+  /* Colors */
+  --color-bg-primary: #FAFAF8;
+  --color-bg-secondary: #F2F2EE;
+  --color-bg-card: #FFFFFF;
+  --color-border-subtle: #E3E3DD;
+  --color-text-primary: #1E1E1C;
+  --color-text-secondary: #5F5F5A;
+  --color-text-muted: #8C8C86;
+  --color-accent-primary: #6B705C;
+  --color-accent-soft: #DDBEA9;
+  --color-success-soft: #A5B7A0;
+  --color-neutral-soft: #CED4DA;
+  --color-warning-soft: #E6CCB2;
+
+  /* Typography */
+  --font-family-primary: Inter;
+  --font-heading-xl-size: 28px;
+  --font-heading-xl-line: 36px;
+  --font-heading-l-size: 22px;
+  --font-heading-l-line: 30px;
+  --font-heading-m-size: 18px;
+  --font-heading-m-line: 26px;
+  --font-body-size: 16px;
+  --font-body-line: 26px;
+  --font-body-small-size: 14px;
+  --font-body-small-line: 22px;
+  --font-meta-size: 12px;
+  --font-meta-line: 18px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+
+  /* Radius */
+  --radius-default: 8px;
+  --radius-small: 4px;
+
+  /* Motion */
+  --motion-expand-collapse-duration: 200ms;
+  --motion-ease-standard: ease-out;
+
+  /* Accessibility */
+  --tap-target-min-height: 40px;
+}
+
+/* Optional helper classes */
+.dreamer-text-body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-body-size);
+  line-height: var(--font-body-line);
+  color: var(--color-text-primary);
+}
+
+.dreamer-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-default);
+}
