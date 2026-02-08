@@ -20,7 +20,7 @@ Entry point and continuity across dreamwork sessions.
   - Date (formatted)
   - Short excerpt (1–2 lines, ellipsis)
   - Optional status badge:
-    - Draft / Structured / Interpreted / Integrated
+    - Draft / Structured/ Associated / Interpreted / Integrated
 - Empty state:
   - Illustration (optional)
   - Text: “No dreams yet. Record your first dream.”
@@ -241,6 +241,138 @@ Close the session without forcing conclusions.
   - Soft dividers
   - Expand/collapse patterns
   - Clear progress cues
+
+---
+
+---
+
+## BYOK (Bring Your Own Key) — UX Pattern
+
+This section defines the **UX pattern for optional BYOK (Bring Your Own LLM API Key)** usage in the Dreamer MVP.
+
+BYOK allows users to run AI-assisted dreamwork using **their own LLM API key**, stored **locally on their device only**, with no server-side persistence.
+
+---
+
+### Purpose
+
+- Enable AI functionality without running a backend proxy
+- Preserve user privacy and data ownership
+- Keep MVP infrastructure minimal
+- Make AI usage explicit and consent-based
+
+---
+
+### UX Principles (Non-Negotiable)
+
+- **Opt-in only** — no AI calls without an explicit user-provided key
+- **Local-only storage** — keys are never written to Firestore
+- **User control** — keys can be viewed, replaced, or removed at any time
+- **Clear boundaries** — explain limitations and risks in plain language
+- **Non-blocking** — core journaling UX remains usable without a key
+
+---
+
+### Entry Points
+
+BYOK UI may be accessed from:
+- A lightweight **Settings** entry in the dashboard
+- A gated prompt when the user first reaches an AI-dependent step:
+  - Dream Breakdown
+  - Interpretation
+  - Integration
+
+---
+
+### Settings Screen / Modal (BYOK)
+
+**Components**
+- API Key input field (password-type)
+- Provider label (e.g. “OpenAI-compatible API key”)
+- Buttons:
+  - **Save key**
+  - **Remove key**
+- Status indicator:
+  - “Key stored locally on this device”
+  - or “No API key set”
+
+**Copy (example)**
+> “Your API key is stored only on this device.  
+> It is never uploaded, logged, or saved to our database.”
+
+---
+
+### Storage Rules (UX-Level Contract)
+
+- API keys are stored using browser local storage
+- Keys are:
+  - scoped to the current browser/device
+  - removed on user request
+  - lost if browser storage is cleared
+- The app must **never**:
+  - sync keys across devices
+  - attach keys to user records
+  - include keys in logs or analytics
+
+---
+
+### AI-Gated Flow Behavior
+
+If **no API key is present**:
+
+- AI-dependent steps display a **soft gate**, not an error
+- Example messaging:
+  > “To generate interpretations, add your own API key — or continue without AI.”
+
+Available actions:
+- Add API key
+- Skip AI step and continue journaling
+- Return to dashboard
+
+No dead ends.
+
+---
+
+### Error States
+
+Handled gently and explicitly:
+- Invalid key
+- Network error
+- Provider error / rate limit
+
+Errors:
+- Never expose raw provider messages
+- Never blame the user
+- Always allow retry or key removal
+
+---
+
+### Ethical Framing (Important)
+
+The presence of a user-supplied key **does not change** the interpretive posture:
+
+- Interpretations remain hypotheses
+- No authoritative language
+- No escalation into advice or diagnosis
+- AI output is always editable, dismissible, and secondary to user reflection
+
+---
+
+### Non-Goals (BYOK)
+
+- No automatic key generation
+- No key sharing
+- No provider-specific lock-in UI
+- No usage analytics tied to keys
+
+---
+
+### Future Migration Path (Non-MVP)
+
+This UX pattern intentionally mirrors a future upgrade path:
+- Replace BYOK with a secure backend proxy
+- Preserve the same user-facing semantics
+- Maintain explicit consent and transparency
 
 ---
 

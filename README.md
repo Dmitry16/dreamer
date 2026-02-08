@@ -68,11 +68,11 @@ This project is intended for personal reflection and educational exploration. It
 
 React + Vite + TypeScript + Material UI starter.
 
-- Install dependencies: `npm install`
-- Start dev server: `npm run dev`
-- Build: `npm run build`
-- Preview: `npm run preview`
-- Lint: `npm run lint`
+- Install dependencies: `yarn install`
+- Start dev server: `yarn run dev`
+- Build: `yarn run build`
+- Preview: `yarn run preview`
+- Lint: `yarn run lint`
 
 ## Documentation
 
